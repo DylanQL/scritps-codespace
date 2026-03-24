@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# 1. Verificar si se proporcionó el parámetro
+if [ -z "$1" ]; then
+    echo "⚠️ Error: Necesitas indicar el nombre del Codespace."
+    echo "💡 Uso: prender-codespace \"NOMBRE_DEL_CODESPACE\""
+    exit 1
+fi
+
+DISPLAY_NAME="$1"
+
+echo "Conectando a '$DISPLAY_NAME'..."
+
+# 2. Ejecutar tu comando directamente, inyectando la variable
+gh codespace ssh -c $(gh codespace list --json name,displayName --jq ".[] | select(.displayName==\"$DISPLAY_NAME\") | .name")
